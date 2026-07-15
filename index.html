@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flux Convert — premium currency converter</title>
+    <meta name="description" content="Premium currency and crypto converter with liquid glass, smooth animations, and natural search." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10l2 4-5 12-5-12 2-4Z" /></svg>
+          </span>
+          <span>Flux Convert</span>
+        </a>
+
+        <div class="header-actions">
+          <div class="lang-switcher" role="group" aria-label="Language switcher">
+            <button class="lang-btn active" data-lang="en" type="button">EN</button>
+            <button class="lang-btn" data-lang="ru" type="button">RU</button>
+          </div>
+          <a class="button primary" href="mailto:hello@fluxconvert.dev" data-i18n="orderLanding">Order a landing</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container page">
+      <section class="hero" data-animate>
+        <div class="hero-copy">
+          <h1 data-i18n="heroTitle">Convert fiat and crypto with a polished, modern flow.</h1>
+          <p data-i18n="heroText">Fast search, clear result states, and a premium glass surface designed to feel as sharp as a real product experience.</p>
+
+          <div class="hero-actions">
+            <a class="button primary" href="#converter" data-i18n="openConverter">Open converter</a>
+            <a class="button secondary" href="#features" data-i18n="seeFeatures">See features</a>
+          </div>
+
+          <div class="hero-badges">
+            <span class="pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.2 4.5 4.9.7-3.6 3.4.9 4.8L12 14.7 8.6 16.4l.9-4.8L5.9 8.2l4.9-.7L12 3Z" /></svg><span data-i18n="liveRates">Live rates</span></span>
+            <span class="pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z" /><path d="M8 12h8" /></svg><span data-i18n="instantSearch">Instant search</span></span>
+            <span class="pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12v8H6z" /><path d="M9 11h6" /></svg><span data-i18n="quickSwap">Quick swap</span></span>
+          </div>
+        </div>
+
+        <div class="glass-card converter-card" id="converter">
+          <div class="card-head">
+            <div>
+              <p class="card-label" data-i18n="converterLabel">Converter</p>
+              <h2 data-i18n="converterTitle">Choose a pair and convert</h2>
+            </div>
+            <span id="converter-status" class="status-pill" data-i18n="statusLoading">Loading rates</span>
+          </div>
+
+          <form id="converter-form" class="converter-form">
+            <label class="field">
+              <span data-i18n="amountLabel">Amount</span>
+              <div class="input-shell">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18" /></svg>
+                <input id="amount" class="input" type="number" min="0" step="0.01" value="100" />
+              </div>
+            </label>
+
+            <div class="field">
+              <span data-i18n="fromLabel">From</span>
+              <div class="input-shell search-wrap">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4a6 6 0 1 0 0 12 6 6 0 0 0 0-12Zm0 0 8 8" /></svg>
+                <input id="from-search" class="input" type="text" autocomplete="off" spellcheck="false" data-i18n-placeholder="searchCurrencies" placeholder="Search currencies" value="USD · US Dollar" />
+                <div id="from-suggestions" class="suggestions" data-picker="from"></div>
+              </div>
+              <select id="from-currency" hidden></select>
+            </div>
+
+            <button id="swap-currencies" class="swap-btn" type="button" aria-label="Swap currencies">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10M7 7l3-3M7 7l3 3M17 17H7m10 0-3 3m3-3-3-3" /></svg>
+            </button>
+
+            <div class="field">
+              <span data-i18n="toLabel">To</span>
+              <div class="input-shell search-wrap">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4a6 6 0 1 0 0 12 6 6 0 0 0 0-12Zm0 0 8 8" /></svg>
+                <input id="to-search" class="input" type="text" autocomplete="off" spellcheck="false" data-i18n-placeholder="searchCurrencies" placeholder="Search currencies" value="EUR · Euro" />
+                <div id="to-suggestions" class="suggestions" data-picker="to"></div>
+              </div>
+              <select id="to-currency" hidden></select>
+            </div>
+          </form>
+
+          <div class="result-box" role="status" aria-live="polite">
+            <div class="result-label" data-i18n="resultLabel">Result</div>
+            <div id="result-output" class="result-value">0.00</div>
+            <div id="result-meta" class="result-meta" data-i18n="resultMeta">Select currencies to continue</div>
+          </div>
+
+          <div class="quick-pairs">
+            <button type="button" class="chip" data-from="usd" data-to="eur">USD → EUR</button>
+            <button type="button" class="chip" data-from="btc" data-to="usd">BTC → USD</button>
+            <button type="button" class="chip" data-from="rub" data-to="usd">RUB → USD</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="info-grid" id="features" data-animate>
+        <article class="glass-card feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M5 12h14M8 17h8" /></svg>
+          </div>
+          <h3 data-i18n="feature1Title">Structured layout</h3>
+          <p data-i18n="feature1Text">Everything sits in a calm, compositional rhythm so the task stays effortless.</p>
+        </article>
+
+        <article class="glass-card feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16" /></svg>
+          </div>
+          <h3 data-i18n="feature2Title">Fluid interactions</h3>
+          <p data-i18n="feature2Text">Soft motion, hover lifts, and responsive states make the experience feel alive.</p>
+        </article>
+
+        <article class="glass-card feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10l2 4-5 12-5-12 2-4Z" /></svg>
+          </div>
+          <h3 data-i18n="feature3Title">Premium finish</h3>
+          <p data-i18n="feature3Text">Glass surfaces, refined shadows, and calm color make the product feel considered.</p>
+        </article>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
